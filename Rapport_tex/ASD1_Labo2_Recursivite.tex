@@ -1,0 +1,128 @@
+\documentclass[a4paper]{article} %format de la feuille + type de document https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Document_classes
+%packages nécessaire pour nos besoins
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{hhline}
+\usepackage{hyperref}
+\usepackage{capt-of}
+\usepackage[pdftex]{graphicx}
+\usepackage{sectsty}
+\usepackage{tcolorbox}
+\usepackage{textcomp}
+\usepackage{courier}
+\usepackage[font={small,it}]{caption}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{caption}
+
+
+\usepackage{adjustbox}
+
+%package pour entête pied de page
+\usepackage{fancyhdr}
+\usepackage{currfile}
+\usepackage{lastpage}
+
+%setlist
+\usepackage{enumitem}
+
+%intégration de code C++
+\usepackage{listings}
+\usepackage{xcolor}
+
+%package pour csv
+\usepackage{csvsimple}
+\usepackage{pgfplotstable,booktabs}
+
+%definition du type de page (entête/pied de page)
+\pagestyle{fancy}
+
+%retire la ligne horizontale de l'entête
+\fancyhf{} % sets both header and footer to nothing
+\renewcommand{\headrulewidth}{0pt}
+
+%définition de l'entête
+\lhead{\includegraphics[width=3cm]{./src/Heig_logo}}
+
+\rhead{\includegraphics[width=3cm]{./src/Hes-So_logo}} 
+
+%définition du pied de page
+
+
+\cfoot{\thepage\ sur \pageref*{LastPage}}
+\rfoot{Schär, Schranz, Smith}
+\lfoot{\today}
+
+
+
+\lstset{ 
+	language = C++,
+	backgroundcolor = \color{black!5},
+	frame = single,
+	keepspaces = true,
+	basicstyle=\footnotesize\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+	belowskip=\baselineskip,
+}
+
+%Définition des couleurs
+\definecolor{havelockBlue}{rgb}{0.004, 0.42, 0.73}	
+\definecolor{Monokaimagenta}{rgb}{0.86,0.08,0.24}
+
+%utilisation de la couleur définie avant
+%toutes les sections auront cette couleur
+\sectionfont{\color{havelockBlue}}
+\setlength{\parindent}{0pt} 
+\setlength{\parskip}{0.5cm}
+
+%espacement après une liste
+\setlist{after=\vspace{\baselineskip}}
+
+\newcommand{\blue}[1]{\textbf{\textcolor{Cerulean}{#1}}}
+\newcommand{\red}[1]{\textbf{\textcolor{OrangeRed}{#1}}}
+
+%début du document
+\begin{document}
+	
+	%début d'un titre
+	\begin{titlepage}
+		%centre les éléments
+		\centering
+		
+		\vspace{5cm}
+		
+		{\scshape\LARGE \color{Monokaimagenta} ASD1 \\ Rapport Recursivité \\Tic Tac Toe \par}
+		
+		%espace vertical de 1 mms
+		\vspace{1cm}
+		\vfill
+
+		
+		{\Large\itshape Joel Schär \\
+			James Smith\\
+			Guillaume \par}
+		\vspace{4cm}
+		\vfill
+		
+		
+		%affiche la date actuelle
+		{\large \today\par}
+		
+		%fin de la page de titre
+	\end{titlepage}
+
+\phantom{}
+\section*{Introduction}
+	
+\end{document}

@@ -6,11 +6,14 @@
 //
 
 /*Nouvelle modification de schrangz*/
+/*Special JOUEeeeeeeelllle!*/
 
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include <limits>
+#include <vector>
+
 using namespace std;
 
 //
@@ -137,11 +140,30 @@ void printBoard() {
 // et bien sur la fonction score elle-même cette
 // fonction étant normalement recursive.
 //
-
 double score(int n, int player) {
-    // A MODIFIER
+    int scoreOppenent = 0;
+    double playerScore = 0;
+    applyMove(n,player);
     
-    double playerScore = rand();
+    if(isWinner(player)){
+        playerScore = 1;
+    }
+    else if(isFull()){
+        playerScore = 0;
+    }
+    else {
+        int bestScore = -1000;
+        for(unsigned i = 1; i <= 9; ++i){
+            if(isValidMove(i)){
+                scoreOppenent = score(i,player * -1);
+                if(scoreOppenent > bestScore){
+                    bestScore = scoreOppenent;
+                }
+            }
+        }
+        playerScore = bestScore * -1;
+    }
+    eraseMove(n);
     return playerScore;
 }
 
@@ -150,14 +172,32 @@ double score(int n, int player) {
 // appelle typiquement la fonction score ci-dessus.
 
 int ai(int player) {
-    // A MODIFIER
-
-    int bestMove = 1+rand()%9;
-    
-    while (! isValidMove(bestMove) ) {
-        bestMove = 1+rand()%9;
+    static bool first = true;
+    if (first) {
+       srand ((unsigned int)time (NULL));
+       first = !first;
     }
-    
+    int bestMove = 0;
+    int bestScore = -1000;
+    int playerScore = 0;
+    vector<vector<int>> bestPosition;
+    for(int i = 1; i <= 9; ++i){
+        if(isValidMove(i)){
+            playerScore = score(i,player);
+            cout << i << " " << playerScore << endl;
+            if(bestScore <= playerScore){
+                if(bestScore == playerScore){
+                    bestPosition.push_back({i,playerScore});
+                }
+                else {
+                    bestPosition.clear();
+                    bestPosition.push_back({i,playerScore});
+                    bestScore = playerScore;
+                }
+            }
+        }
+    }
+    bestMove = bestPosition.at(rand() % bestPosition.size()).at(0);
     return bestMove;
 }
 

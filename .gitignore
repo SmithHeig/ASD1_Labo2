@@ -33,6 +33,14 @@
 .DS_Store
 .idea
 
+
+#Latex
+*.aux
+*.log
+*.out
+*.gz
+*.pdf
+
 .project
 .metadata/
 .cproject
