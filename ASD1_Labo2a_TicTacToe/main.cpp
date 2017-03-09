@@ -141,12 +141,12 @@ void printBoard() {
 // fonction étant normalement recursive.
 //
 double score(int n, int player) {
-    applyMove(n,player);
     int scoreOppenent = 0;
     double playerScore = 0;
+    applyMove(n,player);
     
     if(isWinner(player)){
-        playerScore = 10;
+        playerScore = 1;
     }
     else if(isFull()){
         playerScore = 0;
@@ -155,7 +155,7 @@ double score(int n, int player) {
         int bestScore = -1000;
         for(unsigned i = 1; i <= 9; ++i){
             if(isValidMove(i)){
-                scoreOppenent += score(i,player * -1);
+                scoreOppenent = score(i,player * -1);
                 if(scoreOppenent > bestScore){
                     bestScore = scoreOppenent;
                 }
@@ -163,7 +163,7 @@ double score(int n, int player) {
         }
         playerScore = bestScore * -1;
     }
-    eraseMove(n);    
+    eraseMove(n);
     return playerScore;
 }
 
@@ -178,14 +178,14 @@ int ai(int player) {
        first = !first;
     }
     int bestMove = 0;
-    int bestScore = -100;
+    int bestScore = -1000;
     int playerScore = 0;
     vector<vector<int>> bestPosition;
     for(int i = 1; i <= 9; ++i){
         if(isValidMove(i)){
             playerScore = score(i,player);
             cout << i << " " << playerScore << endl;
-            if(bestScore < playerScore){
+            if(bestScore <= playerScore){
                 if(bestScore == playerScore){
                     bestPosition.push_back({i,playerScore});
                 }
