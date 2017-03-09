@@ -142,40 +142,27 @@ void printBoard() {
 double score(int n, int player) {
     board[iFromN(n)][jFromN(n)] = player;
     int scoreOppenent = 0;
+    double playerScore = 0;
+    static int temp_score;
     if(isWinner(player)){
-        return 1;
+        temp_score =+ 1;
     }
     else if(isFull()){
-        return 0;
+        temp_score += 0;
     }
     else {
         int bestScore = -100;
-        for(unsigned i = 0; i < 9; ++i){
+        for(unsigned i = 1; i <= 9; ++i){
             if(isValidMove(i)){
-                scoreOppenent += score(i,player = 1 ? -1 : 1);
+                scoreOppenent = score(i,player * -1);                
                 if(scoreOppenent > bestScore){
                     bestScore = scoreOppenent;
                 }
             }
         }
-        int score = -1 * bestScore;
+        playerScore = -1 * bestScore;
     }
-    
-    board[iFromN(n)][jFromN(n)] = EMPTY;
-    return score;
-/*
-    pour toute case vide c
-        scoreAdversaire ← calculeScore( c, adversaire )
-    si scoreAdversaire > meilleurScore, alors
-    meilleurScore ← scoreAdversaire
-    fin si
-    fin pour
-    score ← -1 * meilleurScore
-    fin si
-    effacer la marque dans la case
-*/
-    
-    double playerScore = rand();
+    board[iFromN(n)][jFromN(n)] = EMPTY;    
     return playerScore;
 }
 
@@ -184,14 +171,24 @@ double score(int n, int player) {
 // appelle typiquement la fonction score ci-dessus.
 
 int ai(int player) {
-    // A MODIFIER
-
-    int bestMove = 1+rand()%9;
+    int bestMove = 0;
+    int bestScore = -100;
+    int playerScore = 0;
     
-    while (! isValidMove(bestMove) ) {
-        bestMove = 1+rand()%9;
+    for(unsigned i = i; i <= 9; ++i){
+        if(isValidMove(i)){
+            playerScore = score(i,player);
+            if(bestScore < playerScore){
+                if(bestScore == playerScore){
+                    bestMove = rand() % 2 == 0 ? bestScore : playerScore;
+                }
+                else {
+                    bestScore = playerScore;
+                    bestMove = i;
+                }
+            }
+        }
     }
-    
     return bestMove;
 }
 
