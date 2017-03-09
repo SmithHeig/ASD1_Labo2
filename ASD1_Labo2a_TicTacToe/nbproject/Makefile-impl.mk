@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=CppApplication_1
+PROJECTNAME=ASD1_Labo2a_TicTacToe
 
 # Active Configuration
 DEFAULTCONF=Debug
