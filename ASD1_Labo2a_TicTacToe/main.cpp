@@ -139,26 +139,30 @@ void printBoard() {
 // et bien sur la fonction score elle-même cette
 // fonction étant normalement recursive.
 //
-int calculScore(unsigned spot, int player){
-
-    vector<int> grill(9, -1);
-
-    int score;
-    int bestScore;
-
-    //marquer la case
-    grill.at(spot) = player; //le joueur en question marque la case
-
+double score(int n, int player) {
+    board[iFromN(n)][jFromN(n)] = player;
+    int scoreOppenent = 0;
     if(isWinner(player)){
-        score = 1;
+        return 1;
     }
     else if(isFull()){
-        score = 0;
+        return 0;
     }
-    else{
-        bestScore = -100;
-
+    else {
+        int bestScore = -100;
+        for(unsigned i = 0; i < 9; ++i){
+            if(isValidMove(i)){
+                scoreOppenent += score(i,player = 1 ? -1 : 1);
+                if(scoreOppenent > bestScore){
+                    bestScore = scoreOppenent;
+                }
+            }
+        }
+        int score = -1 * bestScore;
     }
+    
+    board[iFromN(n)][jFromN(n)] = EMPTY;
+    return score;
 /*
     pour toute case vide c
         scoreAdversaire ← calculeScore( c, adversaire )
@@ -170,13 +174,6 @@ int calculScore(unsigned spot, int player){
     fin si
     effacer la marque dans la case
 */
-    return score;
-
-}// end calculScore
-
-
-double score(int n, int player) {
-    // A MODIFIER
     
     double playerScore = rand();
     return playerScore;
