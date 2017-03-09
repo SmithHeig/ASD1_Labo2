@@ -6,6 +6,7 @@
 //
 
 /*Nouvelle modification de schrangz*/
+/*Special JOUEeeeeeeelllle!*/
 
 #include <cstdlib>
 #include <ctime>
