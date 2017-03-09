@@ -5,6 +5,8 @@
 //  Copyright (c) 2015 Olivier Cuisenaire. All rights reserved.
 //
 
+/*Nouvelle modification de schrangz*/
+
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
