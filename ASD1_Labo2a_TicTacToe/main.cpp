@@ -11,6 +11,8 @@
 #include <ctime>
 #include <iostream>
 #include <limits>
+#include <vector>
+
 using namespace std;
 
 //
@@ -137,6 +139,41 @@ void printBoard() {
 // et bien sur la fonction score elle-même cette
 // fonction étant normalement recursive.
 //
+int calculScore(unsigned spot, int player){
+
+    vector<int> grill(9, -1);
+
+    int score;
+    int bestScore;
+
+    //marquer la case
+    grill.at(spot) = player; //le joueur en question marque la case
+
+    if(isWinner(player)){
+        score = 1;
+    }
+    else if(isFull()){
+        score = 0;
+    }
+    else{
+        bestScore = -100;
+
+    }
+/*
+    pour toute case vide c
+        scoreAdversaire ← calculeScore( c, adversaire )
+    si scoreAdversaire > meilleurScore, alors
+    meilleurScore ← scoreAdversaire
+    fin si
+    fin pour
+    score ← -1 * meilleurScore
+    fin si
+    effacer la marque dans la case
+*/
+    return score;
+
+}// end calculScore
+
 
 double score(int n, int player) {
     // A MODIFIER
