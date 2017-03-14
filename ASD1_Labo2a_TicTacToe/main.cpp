@@ -184,7 +184,6 @@ int ai(int player) {
     for(int i = 1; i <= 9; ++i){
         if(isValidMove(i)){
             playerScore = score(i,player);
-            cout << i << " " << playerScore << endl;
             if(bestScore <= playerScore){
                 if(bestScore == playerScore){
                     bestPosition.push_back({i,playerScore});
