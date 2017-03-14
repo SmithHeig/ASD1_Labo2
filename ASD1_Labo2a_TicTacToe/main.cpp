@@ -5,8 +5,6 @@
 //  Copyright (c) 2015 Olivier Cuisenaire. All rights reserved.
 //
 
-/*Nouvelle modification de schrangz*/
-/*Special JOUEeeeeeeelllle!*/
 
 #include <cstdlib>
 #include <ctime>
@@ -140,27 +138,45 @@ void printBoard() {
 // et bien sur la fonction score elle-même cette
 // fonction étant normalement recursive.
 //
+
+// iterative function which calculates the score each move will get
+// it calculates each possibility by looking with score is better for
+// the opponent and returns the inverted value
 double score(int n, int player) {
     int scoreOppenent = 0;
     double playerScore = 0;
     applyMove(n,player);
-    
+
+    // stop recursion if one player is winning or if the board is full
     if(isWinner(player)){
         playerScore = 1;
     }
     else if(isFull()){
         playerScore = 0;
     }
+
+   // recursive part, evaluating which score the opponent will get with this move
     else {
         int bestScore = -1000;
+
+        // iteration going over each case of the board
         for(unsigned i = 1; i <= 9; ++i){
+
+            // checking if the case isn't played yet
             if(isValidMove(i)){
+
+                // calls score to evaluate the score for this move
                 scoreOppenent = score(i,player * -1);
+
+                // best score keeps the best
                 if(scoreOppenent > bestScore){
                     bestScore = scoreOppenent;
                 }
             }
         }
+
+        // player score gets the opposit score of the opponent
+        // if opponents wins we lose
         playerScore = bestScore * -1;
     }
     eraseMove(n);
@@ -171,7 +187,13 @@ double score(int n, int player) {
 // comme etant celui qui donne le meilleur score
 // appelle typiquement la fonction score ci-dessus.
 
+
+// the ai function calculates all the best possible moves depending of the actual game status
+// it returns the best case to play
+// if there are more than one best move possible, a random position is returned
 int ai(int player) {
+
+    // initialising the random function
     static bool first = true;
     if (first) {
        srand ((unsigned int)time (NULL));
@@ -180,14 +202,28 @@ int ai(int player) {
     int bestMove = 0;
     int bestScore = -1000;
     int playerScore = 0;
+
+    // vector keeping the best possible moves
     vector<vector<int>> bestPosition;
+
+    // iteration going over each case
     for(int i = 1; i <= 9; ++i){
+
+        // if one case is still playable the score for it is calculated with the score function
         if(isValidMove(i)){
             playerScore = score(i,player);
+
+            // the score for this case is compared to the other scores
+            // if the last calculated value is better than the last best or equal it gets kept
+            // in the vector bestPosition
             if(bestScore <= playerScore){
+
+                // if the score is equal it gets added to the possible positions
                 if(bestScore == playerScore){
                     bestPosition.push_back({i,playerScore});
                 }
+
+                    // if the is higher the vector gets cleared and the new best score gets added
                 else {
                     bestPosition.clear();
                     bestPosition.push_back({i,playerScore});
@@ -196,6 +232,8 @@ int ai(int player) {
             }
         }
     }
+
+    // one of the best positions gets chosen by a random and returned
     bestMove = bestPosition.at(rand() % bestPosition.size()).at(0);
     return bestMove;
 }
