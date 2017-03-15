@@ -168,7 +168,6 @@ double score(int n, int player) {
                 // calls score to evaluate the score for this move
                 scoreOppenent = score(i,player * -1);
 
-                // best score keeps the best
                 if(scoreOppenent > bestScore){
                     bestScore = scoreOppenent;
                 }
@@ -179,6 +178,7 @@ double score(int n, int player) {
         // if opponents wins we lose
         playerScore = bestScore * -1;
     }
+    // Reset the board to the current position
     eraseMove(n);
     return playerScore;
 }
