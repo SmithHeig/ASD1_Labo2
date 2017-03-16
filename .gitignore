@@ -41,6 +41,9 @@
 *.gz
 *.pdf
 
+#cmake
+cmake*
+
 .project
 .metadata/
 .cproject
