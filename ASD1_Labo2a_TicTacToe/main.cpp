@@ -143,7 +143,8 @@ void printBoard() {
 // it calculates each possibility by looking with score is better for
 // the opponent and returns the inverted value
 double score(int n, int player) {
-    int scoreOppenent = 0;
+    
+	int scoreOppenent = 0;
     double playerScore = 0;
     applyMove(n,player);
 
