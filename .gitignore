@@ -43,6 +43,8 @@
 
 #cmake
 cmake*
+make*
+nbproject
 
 .project
 .metadata/
