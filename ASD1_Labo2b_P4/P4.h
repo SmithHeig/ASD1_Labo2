@@ -79,7 +79,8 @@ private:
    const int NB_COLUMNS = 7;
    const int NB_LINES = 6;
    vector<vector<int>> board;
-   unsigned current_column; 
+   int currentColumn;
+   int currentLine;
 };
 
 /**
