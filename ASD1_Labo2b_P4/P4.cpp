@@ -3,7 +3,13 @@
 using namespace std;
 
 P4::P4(){
-   
+    board.resize(NB_LINES);
+    for(unsigned i = 0; i < NB_LINES;++i){
+        board.at(i).resize(NB_COLUMS);
+        for(unsigned j = 0; j < NB_COLUMS; ++j){
+            board.at(i).at(j) = 0;
+        }
+    }
 }
 
 void P4::reset(){
@@ -30,4 +36,6 @@ string P4::getName() const{
    
 }
 
-#endif /* P4_h */
+ostream& operator << ( std::ostream&, const P4& ){
+    
+}
