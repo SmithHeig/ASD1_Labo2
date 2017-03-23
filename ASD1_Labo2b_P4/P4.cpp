@@ -1,5 +1,6 @@
 #include "P4.h"
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 P4::P4() {
@@ -18,7 +19,6 @@ void P4::reset() {
             board.at(i).at(j) = EMPTY;
         }
     }
-    
 }
 
 void P4::playInColumn(size_t c, Player p) {
@@ -109,7 +109,30 @@ bool P4::isValidMove(size_t c) const {
 }
 
 size_t P4::chooseNextMove(Player p, unsigned depth) {
-
+    // initialising the random function
+    static bool first = true;
+    if (first) {
+       srand ((unsigned int)time (NULL));
+       first = !first;
+    }
+    
+    vector<pair<int,int>> scores;
+    scores.at(0) = make_pair(0,-100000); // set bestScore
+    int playerScore;
+    for(unsigned i = 0; i < NB_COLUMNS; ++i){
+        if(isValidMove(i)){
+            playerScore = bestScore(i,depth,p);
+            if(playerScore >= scores.at(0).second){
+                if(playerScore == scores.at(0).second){
+                    scores.push_back(make_pair(i,playerScore));
+                } else {
+                    scores.clear();
+                    scores.push_back(make_pair(i,playerScore));
+                }
+            }
+        }
+    }
+    return scores.at(rand() % scores.size()).first;
 }
 
 string P4::getName() const {
@@ -137,7 +160,7 @@ ostream& operator<<(ostream& stream, const P4& p4) {
     return stream;
 }
 
-int P4::bestScore(int node, int depth, int player) {
+int P4::bestScore(int node, int depth, Player player) {
     int heuristicValue = 10;
     int score;
     playInColumn(node, player);
@@ -149,10 +172,11 @@ int P4::bestScore(int node, int depth, int player) {
     for (unsigned i = 0; i < NB_LINES; ++i) {
         for (unsigned j = 0; j < NB_COLUMNS; ++j) {
             if (isValidMove(j)) {
-                score = bestScore(j, depth - 1, player * -1) * -1;
+                score = bestScore(j, depth - 1, Player(-player)) * -1;
                 bestValue = bestValue < score ? score: bestValue;
             }
         }
     }
+    board.at(currentLine).at(currentColumn) == EMPTY; // Reset du coups jouer
     return bestValue;
 }

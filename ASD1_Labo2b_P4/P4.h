@@ -76,7 +76,7 @@ public:
    std::string getName() const;
 
 private:
-   int bestScore(int node, int depth, int a, int b, int player);
+   int bestScore(int node, int depth, Player player);
    
    const int NB_COLUMNS = 7;
    const int NB_LINES = 6;
