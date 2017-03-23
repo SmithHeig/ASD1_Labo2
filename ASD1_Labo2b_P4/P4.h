@@ -81,7 +81,7 @@ private:
    vector<vector<int>> board;
    int currentColumn;
    int currentLine;
-   string codersName = "ScharSchranzSmith";
+   string CODERS_NAME = "ScharSchranzSmith";
 };
 
 /**

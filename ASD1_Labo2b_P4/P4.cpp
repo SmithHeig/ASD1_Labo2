@@ -112,7 +112,7 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
 }
 
 string P4::getName() const {
-   return codersName;
+   return CODERS_NAME;
 }
 
 ostream& operator<<(ostream& stream, const P4& p4) {
