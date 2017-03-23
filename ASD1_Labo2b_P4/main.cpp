@@ -108,7 +108,7 @@ int main() {
     cout << game;
     
     if (piecesJouees>=42)
-        cout << " \n Egalité! \n";
+        cout << " \n Egalite! \n";
     else
         cout << " \n" << (currentPlayer == X ? 'X' : 'O') << " gagne! \n";
 }
