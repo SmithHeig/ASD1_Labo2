@@ -13,7 +13,12 @@ P4::P4() {
 }
 
 void P4::reset() {
-
+    for (unsigned i = 0; i < NB_LINES; ++i) {
+        for (unsigned j = 0; j < NB_COLUMNS; ++j) {
+            board.at(i).at(j) = EMPTY;
+        }
+    }
+    
 }
 
 void P4::playInColumn(size_t c, Player p) {
