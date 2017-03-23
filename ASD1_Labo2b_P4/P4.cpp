@@ -131,3 +131,23 @@ ostream& operator<<(ostream& stream, const P4& p4) {
     stream << endl;
     return stream;
 }
+
+int P4::bestScore(int node, int depth, int player) {
+    int heuristicValue = 10;
+    int score;
+    playInColumn(node, player);
+    if (depth == 0 || isWinner(player)) {
+        return player * heuristicValue; // to determinate
+    }
+
+    int bestValue = -1000000;
+    for (unsigned i = 0; i < NB_LINES; ++i) {
+        for (unsigned j = 0; j < NB_COLUMNS; ++j) {
+            if (isValidMove(j)) {
+                score = bestScore(j, depth - 1, player * -1) * -1;
+                bestValue = bestValue < score ? score: bestValue;
+            }
+        }
+    }
+    return bestValue;
+}
