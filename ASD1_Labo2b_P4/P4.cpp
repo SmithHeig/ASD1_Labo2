@@ -18,7 +18,11 @@ void P4::reset() {
         for (unsigned j = 0; j < NB_COLUMNS; ++j) {
             board.at(i).at(j) = EMPTY;
         }
+<<<<<<< HEAD
     }
+=======
+    }   
+>>>>>>> 04dc7e4910a1b58b980aba6df7a10c2d5287024a
 }
 
 void P4::playInColumn(size_t c, Player p) {
@@ -140,7 +144,7 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
 }
 
 string P4::getName() const {
-
+   return CODERS_NAME;
 }
 
 ostream& operator <<(ostream& stream, const P4& p4) {
