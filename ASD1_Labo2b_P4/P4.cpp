@@ -1,6 +1,7 @@
 #include "P4.h"
 #include <iostream>
 #include <ctime>
+#include <cmath>
 using namespace std;
 
 P4::P4() {
@@ -108,9 +109,7 @@ bool P4::isValidMove(size_t c) const {
 }
 
 size_t P4::chooseNextMove(Player p, unsigned depth) {
-    P4 temp;
-    temp = *this;
-    
+
     // initialising the random function 
     static bool first = true;
     if (first) {
@@ -120,10 +119,11 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
 
     vector<pair<int, int>> scores;
     scores.push_back(make_pair(0, -100000)); // set bestScore
+    
     int playerScore;
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
         if (isValidMove(i)) {
-            playerScore = bestScore(i, depth,-1000000,1000000, p) * int(p);
+            playerScore = bestScore(i, depth, -1000000, 1000000, p);
             cout << i << " " << playerScore << endl;
             if (playerScore >= scores.at(0).second) {
                 if (playerScore == scores.at(0).second) {
@@ -135,7 +135,6 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
             }
         }
     }
-    *this = temp;
     return scores.at(rand() % scores.size()).first;
 }
 
@@ -143,7 +142,7 @@ string P4::getName() const {
 
 }
 
-ostream& operator <<(ostream& stream, const P4& p4) {
+ostream& operator<<(ostream& stream, const P4& p4) {
     for (int i = p4.NB_LINES - 1; i >= 0; --i) {
         for (int j = 0; j < p4.NB_COLUMNS; ++j) {
             stream << "|";
@@ -165,37 +164,53 @@ ostream& operator <<(ostream& stream, const P4& p4) {
 }
 
 int P4::bestScore(int node, int depth, int a, int b, Player player) {
-    int heuristicValue = 10;
-    int score = 0;
+    int heuristicValue = 100;
+    int scoreOppenent = 0;
+    int playerScore = -1000;
     P4 temp;
     temp = *this;
-    
-    playInColumn(node, player);
-    if (depth == 0 || isWinner(player)) {
-        return int(player) * (heuristicValue + depth); // to determinate
-    }
 
-    int bestValue = -1000000;
-    for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-        if (isValidMove(i)) {
-            score = -1 * bestScore(i, depth - 1, -1 * b, -1 * a, Player(-player));
-            bestValue = bestValue < score ? score : bestValue;
-            a = a > score ? a : score;
-            if(a >= b){
-                break;
+    temp.playInColumn(node, player);
+    if (isWinner(player)) {
+        playerScore = depth; // to determinate
+        cout << playerScore << endl;
+    }
+    else if (depth == 0 || isFull()) {
+        playerScore = 0;
+    } else {
+        int bestValue = -1000000;
+        for (unsigned i = 0; i < NB_COLUMNS; ++i) {
+            if (temp.isValidMove(i)) {
+                scoreOppenent = temp.bestScore(i, depth - 1, -1 * b, -1 * a, Player(-player));
+                if(scoreOppenent > bestValue){
+                    bestValue = scoreOppenent;
+                }
+                //a = a > scoreOppenent ? a : scoreOppenent;
+                //if (a >= b) {
+                //   break;
+                //}
             }
         }
+        playerScore = bestValue * -1;
     }
-    *this = temp;
-    return bestValue;
+    return playerScore;
 }
 
-void P4::eraseMove(int line, int column){
+void P4::eraseMove(int line, int column) {
     board.at(line).at(column) = EMPTY;
 }
 
-void P4::operator = (const P4& p4){
+void P4::operator=(const P4& p4) {
     board = p4.board;
     currentColumn = p4.currentColumn;
     currentLine = p4.currentLine;
+}
+
+bool P4::isFull() {
+    for (unsigned i = 0; i < NB_COLUMNS; ++i) {
+        if (board.at(NB_LINES - 1).at(i) != EMPTY) {
+            return false;
+        }
+    }
+    return true;
 }

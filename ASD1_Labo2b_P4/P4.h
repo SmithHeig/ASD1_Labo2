@@ -79,6 +79,7 @@ private:
    int bestScore(int node, int depth, int a, int b, Player player);
    void eraseMove(int line, int column);
    void operator = (const P4& p4);
+   bool isFull();
    
    const int NB_COLUMNS = 7;
    const int NB_LINES = 6;
