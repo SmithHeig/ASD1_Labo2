@@ -82,7 +82,6 @@ bool P4::isWinner(Player p) const {
     line = currentLine - 3;
     col = currentColumn + 3;
     for (; col > int(currentColumn) - 3; --col, ++line) {
-        cout << line << " " << col << endl;
         if (line >= 0 && line < NB_LINES && isValidMove(col)) {
             if (board.at(line).at(col) == p) {
                 ++cmpt;
@@ -109,29 +108,33 @@ bool P4::isValidMove(size_t c) const {
 }
 
 size_t P4::chooseNextMove(Player p, unsigned depth) {
-    // initialising the random function
+    P4 temp;
+    temp = *this;
+    
+    // initialising the random function 
     static bool first = true;
     if (first) {
-       srand ((unsigned int)time (NULL));
-       first = !first;
+        srand((unsigned int) time(NULL));
+        first = !first;
     }
-    
-    vector<pair<int,int>> scores;
-    scores.at(0) = make_pair(0,-100000); // set bestScore
+
+    vector<pair<int, int>> scores;
+    scores.push_back(make_pair(0, -100000)); // set bestScore
     int playerScore;
-    for(unsigned i = 0; i < NB_COLUMNS; ++i){
-        if(isValidMove(i)){
-            playerScore = bestScore(i,depth,p);
-            if(playerScore >= scores.at(0).second){
-                if(playerScore == scores.at(0).second){
-                    scores.push_back(make_pair(i,playerScore));
+    for (unsigned i = 0; i < NB_COLUMNS; ++i) {
+        if (isValidMove(i)) {
+            playerScore = bestScore(i, depth,-1000000,1000000, p) * int(p);
+            if (playerScore >= scores.at(0).second) {
+                if (playerScore == scores.at(0).second) {
+                    scores.push_back(make_pair(i, playerScore));
                 } else {
                     scores.clear();
-                    scores.push_back(make_pair(i,playerScore));
+                    scores.push_back(make_pair(i, playerScore));
                 }
             }
         }
     }
+    *this = temp;
     return scores.at(rand() % scores.size()).first;
 }
 
@@ -139,7 +142,7 @@ string P4::getName() const {
 
 }
 
-ostream& operator<<(ostream& stream, const P4& p4) {
+ostream& operator <<(ostream& stream, const P4& p4) {
     for (int i = p4.NB_LINES - 1; i >= 0; --i) {
         for (int j = 0; j < p4.NB_COLUMNS; ++j) {
             stream << "|";
@@ -160,23 +163,38 @@ ostream& operator<<(ostream& stream, const P4& p4) {
     return stream;
 }
 
-int P4::bestScore(int node, int depth, Player player) {
-    int heuristicValue = 10;
-    int score;
+int P4::bestScore(int node, int depth, int a, int b, Player player) {
+    int heuristicValue = 100;
+    int score = 0;
+    P4 temp;
+    temp = *this;
+    
     playInColumn(node, player);
     if (depth == 0 || isWinner(player)) {
-        return player * heuristicValue; // to determinate
+        return heuristicValue - depth; // to determinate
     }
 
     int bestValue = -1000000;
-    for (unsigned i = 0; i < NB_LINES; ++i) {
-        for (unsigned j = 0; j < NB_COLUMNS; ++j) {
-            if (isValidMove(j)) {
-                score = bestScore(j, depth - 1, Player(-player)) * -1;
-                bestValue = bestValue < score ? score: bestValue;
+    for (unsigned i = 0; i < NB_COLUMNS; ++i) {
+        if (isValidMove(i)) {
+            score = -1 * bestScore(i, depth - 1, -1 * b, -1 * a, Player(-player));
+            bestValue = bestValue < score ? score : bestValue;
+            a = a > score ? a : score;
+            if(a >= b){
+                break;
             }
         }
     }
-    board.at(currentLine).at(currentColumn) == EMPTY; // Reset du coups jouer
+    *this = temp;
     return bestValue;
+}
+
+void P4::eraseMove(int line, int column){
+    board.at(line).at(column) = EMPTY;
+}
+
+void P4::operator = (const P4& p4){
+    board = p4.board;
+    currentColumn = p4.currentColumn;
+    currentLine = p4.currentLine;
 }
