@@ -66,7 +66,7 @@ bool P4::isWinner(Player p) const {
     cmpt = 0;
     int line = currentLine - 3;
     int col = currentColumn - 3;
-    for (; col < int(currentColumn) + 3; ++col, ++line) {
+    for (; col <= currentColumn + 3; ++col, ++line) {
         if (line >= 0 && line < NB_LINES && isValidMove(col)) {
             if (board.at(line).at(col) == p) {
                 ++cmpt;
@@ -82,7 +82,7 @@ bool P4::isWinner(Player p) const {
     cmpt = 0;
     line = currentLine - 3;
     col = currentColumn + 3;
-    for (; col > int(currentColumn) - 3; --col, ++line) {
+    for (; col >= currentColumn - 3; --col, ++line) {
         if (line >= 0 && line < NB_LINES && isValidMove(col)) {
             if (board.at(line).at(col) == p) {
                 ++cmpt;
@@ -164,7 +164,7 @@ ostream& operator<<(ostream& stream, const P4& p4) {
 }
 
 int P4::bestScore(int node, int depth, int a, int b, Player player) {
-    int heuristicValue = 100;
+    //int heuristicValue = 100;
     int scoreOppenent = 0;
     int playerScore = -1000;
     P4 temp;
@@ -186,7 +186,11 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
                 }
                 a = a > scoreOppenent ? a : scoreOppenent;
                 if (a >= b) {
+<<<<<<< HEAD
                     break;
+=======
+                   break;
+>>>>>>> james
                 }
             }
         }
@@ -213,3 +217,5 @@ bool P4::isFull() {
     }
     return true;
 }
+
+
