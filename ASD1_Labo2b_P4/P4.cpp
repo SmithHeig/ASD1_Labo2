@@ -19,11 +19,7 @@ void P4::reset() {
         for (unsigned j = 0; j < NB_COLUMNS; ++j) {
             board.at(i).at(j) = EMPTY;
         }
-<<<<<<< HEAD
     }
-=======
-    }   
->>>>>>> 04dc7e4910a1b58b980aba6df7a10c2d5287024a
 }
 
 void P4::playInColumn(size_t c, Player p) {
@@ -70,7 +66,7 @@ bool P4::isWinner(Player p) const {
     cmpt = 0;
     int line = currentLine - 3;
     int col = currentColumn - 3;
-    for (; col < int(currentColumn) + 3; ++col, ++line) {
+    for (; col <= currentColumn + 3; ++col, ++line) {
         if (line >= 0 && line < NB_LINES && isValidMove(col)) {
             if (board.at(line).at(col) == p) {
                 ++cmpt;
@@ -86,7 +82,7 @@ bool P4::isWinner(Player p) const {
     cmpt = 0;
     line = currentLine - 3;
     col = currentColumn + 3;
-    for (; col > int(currentColumn) - 3; --col, ++line) {
+    for (; col >= currentColumn - 3; --col, ++line) {
         if (line >= 0 && line < NB_LINES && isValidMove(col)) {
             if (board.at(line).at(col) == p) {
                 ++cmpt;
@@ -168,7 +164,7 @@ ostream& operator<<(ostream& stream, const P4& p4) {
 }
 
 int P4::bestScore(int node, int depth, int a, int b, Player player) {
-    int heuristicValue = 100;
+    //int heuristicValue = 100;
     int scoreOppenent = 0;
     int playerScore = -1000;
     P4 temp;
@@ -188,10 +184,14 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
                 if(scoreOppenent > bestValue){
                     bestValue = scoreOppenent;
                 }
-                //a = a > scoreOppenent ? a : scoreOppenent;
-                //if (a >= b) {
-                //   break;
-                //}
+                a = a > scoreOppenent ? a : scoreOppenent;
+                if (a >= b) {
+<<<<<<< HEAD
+                    break;
+=======
+                   break;
+>>>>>>> james
+                }
             }
         }
         playerScore = bestValue * -1;
@@ -217,3 +217,5 @@ bool P4::isFull() {
     }
     return true;
 }
+
+
