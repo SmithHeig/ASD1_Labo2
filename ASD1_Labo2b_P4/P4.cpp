@@ -171,7 +171,7 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
     temp = *this;
 
     temp.playInColumn(node, player);
-    if (isWinner(player)) {
+    if (temp.isWinner(player)) {
         playerScore = depth; // to determinate
         cout << playerScore << endl;
     }
