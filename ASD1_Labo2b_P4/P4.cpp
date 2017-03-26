@@ -19,11 +19,7 @@ void P4::reset() {
         for (unsigned j = 0; j < NB_COLUMNS; ++j) {
             board.at(i).at(j) = EMPTY;
         }
-<<<<<<< HEAD
     }
-=======
-    }   
->>>>>>> 04dc7e4910a1b58b980aba6df7a10c2d5287024a
 }
 
 void P4::playInColumn(size_t c, Player p) {
@@ -188,10 +184,10 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
                 if(scoreOppenent > bestValue){
                     bestValue = scoreOppenent;
                 }
-                //a = a > scoreOppenent ? a : scoreOppenent;
-                //if (a >= b) {
-                //   break;
-                //}
+                a = a > scoreOppenent ? a : scoreOppenent;
+                if (a >= b) {
+                    break;
+                }
             }
         }
         playerScore = bestValue * -1;
