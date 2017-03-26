@@ -124,6 +124,7 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
         if (isValidMove(i)) {
             playerScore = bestScore(i, depth,-1000000,1000000, p) * int(p);
+            cout << i << " " << playerScore << endl;
             if (playerScore >= scores.at(0).second) {
                 if (playerScore == scores.at(0).second) {
                     scores.push_back(make_pair(i, playerScore));
@@ -164,14 +165,14 @@ ostream& operator <<(ostream& stream, const P4& p4) {
 }
 
 int P4::bestScore(int node, int depth, int a, int b, Player player) {
-    int heuristicValue = 100;
+    int heuristicValue = 10;
     int score = 0;
     P4 temp;
     temp = *this;
     
     playInColumn(node, player);
     if (depth == 0 || isWinner(player)) {
-        return heuristicValue - depth; // to determinate
+        return int(player) * (heuristicValue + depth); // to determinate
     }
 
     int bestValue = -1000000;
