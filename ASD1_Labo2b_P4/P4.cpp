@@ -175,11 +175,10 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
     temp = *this;
 
     temp.playInColumn(node, player);
-    if (isWinner(player)) {
+    if (temp.isWinner(player)) {
         playerScore = depth; // to determinate
-        cout << playerScore << endl;
     }
-    else if (depth == 0 || isFull()) {
+    else if (depth == 0 || temp.isFull()) {
         playerScore = 0;
     } else {
         int bestValue = -1000000;
@@ -212,7 +211,7 @@ void P4::operator=(const P4& p4) {
 
 bool P4::isFull() {
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-        if (board.at(NB_LINES - 1).at(i) != EMPTY) {
+        if (board.at(NB_LINES - 1).at(i) == EMPTY) {
             return false;
         }
     }
