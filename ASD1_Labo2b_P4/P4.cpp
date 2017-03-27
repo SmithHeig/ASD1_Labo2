@@ -187,11 +187,7 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
                 }
                 a = a > scoreOppenent ? a : scoreOppenent;
                 if (a >= b) {
-<<<<<<< HEAD
                     break;
-=======
-                   break;
->>>>>>> james
                 }
             }
         }
