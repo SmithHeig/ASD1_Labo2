@@ -37,7 +37,41 @@ void P4::playInColumn(size_t c, Player p) {
 
 bool P4::isWinner(Player p) const {
     unsigned cmpt = 0;
+    
+    // Test diagonal 1
+    int line = currentLine - 3;
+    int col = currentColumn - 3;
+    for (; col <= currentColumn + 3; ++col, ++line) {
+        if (line >= 0 && line < NB_LINES && col >= 0 && col < NB_COLUMNS) {
+            if (board.at(line).at(col) == p) {
+                ++cmpt;
+                if (cmpt == 4) {
+                    return true;
+                }
+            } else {
+                cmpt = 0;
+            }
+        }
+    }
+
+    cmpt = 0;
+    line = currentLine - 3;
+    col = currentColumn + 3;
+    for (; col >= currentColumn - 3; --col, ++line) {
+        if (line >= 0 && line < NB_LINES && col >= 0 && col < NB_COLUMNS ) {
+            if (board.at(line).at(col) == p) {
+                ++cmpt;
+                if (cmpt == 4) {
+                    return true;
+                }
+            } else {
+                cmpt = 0;
+            }
+        }
+    }
+    
     // Test horizontal
+    cmpt = 0;
     for (int i = 0; i < NB_COLUMNS; ++i) {
         if (board.at(currentLine).at(i) == p) {
             cmpt++;
@@ -62,39 +96,6 @@ bool P4::isWinner(Player p) const {
         }
     }
 
-    // Test diagonal 1
-    cmpt = 0;
-    int line = currentLine - 3;
-    int col = currentColumn - 3;
-    for (; col <= currentColumn + 3; ++col, ++line) {
-        if (line >= 0 && line < NB_LINES && isValidMove(col)) {
-            if (board.at(line).at(col) == p) {
-                ++cmpt;
-                if (cmpt == 4) {
-                    return true;
-                }
-            } else {
-                cmpt = 0;
-            }
-        }
-    }
-
-    cmpt = 0;
-    line = currentLine - 3;
-    col = currentColumn + 3;
-    for (; col >= currentColumn - 3; --col, ++line) {
-        if (line >= 0 && line < NB_LINES && isValidMove(col)) {
-            if (board.at(line).at(col) == p) {
-                ++cmpt;
-                if (cmpt == 4) {
-                    return true;
-                }
-            } else {
-                cmpt = 0;
-            }
-        }
-    }
-
     // no winner
     return false;
 }
@@ -109,7 +110,7 @@ bool P4::isValidMove(size_t c) const {
 }
 
 size_t P4::chooseNextMove(Player p, unsigned depth) {
-
+    P4 temp = *this;
     // initialising the random function 
     static bool first = true;
     if (first) {
@@ -122,8 +123,8 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     
     int playerScore;
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-        if (isValidMove(i)) {
-            playerScore = bestScore(i, depth, -1000000, 1000000, p);
+        if (temp.isValidMove(i)) {
+            playerScore = temp.bestScore(i, depth, -1000000, 1000000, p);
             cout << i << " " << playerScore << endl;
             if (playerScore >= scores.at(0).second) {
                 if (playerScore == scores.at(0).second) {
@@ -199,7 +200,7 @@ void P4::eraseMove(int line, int column) {
     board.at(line).at(column) = EMPTY;
 }
 
-void P4::operator=(const P4& p4) {
+void P4::operator = (const P4& p4) {
     board = p4.board;
     currentColumn = p4.currentColumn;
     currentLine = p4.currentLine;
