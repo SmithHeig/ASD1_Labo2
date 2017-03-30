@@ -122,19 +122,26 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     scores.push_back(make_pair(0, -100000)); // set bestScore
     
     int playerScore;
+    size_t j = 3;//colonne centrale 
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-        if (temp.isValidMove(i)) {
-            playerScore = temp.bestScore(i, depth, -1000000, 1000000, p);
+       j+=(pow(-1, i+1))*i;//a expliquer
+        if (temp.isValidMove(j)) {
+            playerScore = temp.bestScore(j, depth, -1000000, 1000000, p);
             if (playerScore >= scores.at(0).second) {
                 if (playerScore == scores.at(0).second) {
-                    scores.push_back(make_pair(i, playerScore));
+                    scores.push_back(make_pair(j, playerScore));
                 } else {
                     scores.clear();
-                    scores.push_back(make_pair(i, playerScore));
+                    scores.push_back(make_pair(j, playerScore));
                 }
             }
         }
     }
+    for (size_t i = 0; i < scores.size() ; ++i){
+       if (scores.at(i).first == 3) {
+          return 3;
+       }
+    }    
     return scores.at(rand() % scores.size()).first;
 }
 
