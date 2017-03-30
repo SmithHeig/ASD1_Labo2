@@ -124,15 +124,13 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     int playerScore;
     size_t j = 3;//colonne centrale 
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-<<<<<<< HEAD
         if (temp.isValidMove(i)) {
             playerScore = temp.bestScore(i, depth, -1000000, 1000000, p);
             cout << i << " " << playerScore << endl;
-=======
-       j+=(pow(-1, i+1))*i;//a expliquer
+            j+=(pow(-1, i+1))*i;//a expliquer
+        }
         if (temp.isValidMove(j)) {
             playerScore = temp.bestScore(j, depth, -1000000, 1000000, p);
->>>>>>> 31e0c2e8fc147d472bb522fac903a0be99f32827
             if (playerScore >= scores.at(0).second) {
                 if (playerScore == scores.at(0).second) {
                     scores.push_back(make_pair(j, playerScore));
