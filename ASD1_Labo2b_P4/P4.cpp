@@ -125,7 +125,6 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
         if (temp.isValidMove(i)) {
             playerScore = temp.bestScore(i, depth, -1000000, 1000000, p);
-            cout << i << " " << playerScore << endl;
             if (playerScore >= scores.at(0).second) {
                 if (playerScore == scores.at(0).second) {
                     scores.push_back(make_pair(i, playerScore));
@@ -196,10 +195,6 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
     return playerScore;
 }
 
-void P4::eraseMove(int line, int column) {
-    board.at(line).at(column) = EMPTY;
-}
-
 void P4::operator = (const P4& p4) {
     board = p4.board;
     currentColumn = p4.currentColumn;
@@ -214,5 +209,3 @@ bool P4::isFull() {
     }
     return true;
 }
-
-

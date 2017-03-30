@@ -76,9 +76,27 @@ public:
    std::string getName() const;
 
 private:
+   /**
+    * bestScore calcul the score of a case.
+    * @param node is the case of the board
+    * @param depth of the algorithm
+    * @param a parameter alpha for the aplpha beta algorithm
+    * @param b parameter beta for the aplpha beta algorithm
+    * @param player current player
+    * @return the score of the case
+    */
    int bestScore(int node, int depth, int a, int b, Player player);
-   void eraseMove(int line, int column);
+   
+   /**
+    * overloard operator = (operator of copie)
+    * @param p4 the game to copie.
+    */
    void operator = (const P4& p4);
+   
+   /**
+    * Caclul if the board is full
+    * @return return true if the board is full
+    */
    bool isFull();
    
    const int NB_COLUMNS = 7;
