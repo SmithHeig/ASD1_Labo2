@@ -9,7 +9,7 @@ using P4Type = P4;
 using namespace std;
 using Clock = std::chrono::high_resolution_clock;
 
-const int INITIAL_DEPTH = 5;
+const int INITIAL_DEPTH = 7;
 const int INCREASE_DEPTH_IF_FASTER_THAN = 200; // millisecondes
 
 // choisit interactivement le prochain mouvement
