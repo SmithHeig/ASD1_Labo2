@@ -127,8 +127,8 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
         if (temp.isValidMove(i)) {
             playerScore = temp.bestScore(i, depth, -1000000, 1000000, p);
             cout << i << " " << playerScore << endl;
-            j+=(pow(-1, i+1))*i;//a expliquer
         }
+       j+=(pow(-1, i+1))*i;//a expliquer
         if (temp.isValidMove(j)) {
             playerScore = temp.bestScore(j, depth, -1000000, 1000000, p);
             if (playerScore >= scores.at(0).second) {
