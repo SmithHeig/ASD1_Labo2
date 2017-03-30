@@ -99,7 +99,12 @@ private:
     */
    bool isFull();
    
-   unsigned heuristic (Player p);
+   int heuristic (Player p);
+   
+   bool isInBoard(int line, int col) const;
+   
+   int testHeuristicHorizontal(Player p);
+   int testHeuristicVertical(Player p);
    
    const int NB_COLUMNS = 7;
    const int NB_LINES = 6;
