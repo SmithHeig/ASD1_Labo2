@@ -209,3 +209,66 @@ bool P4::isFull() {
     }
     return true;
 }
+
+
+unsigned P4::heuristic (Player p){
+    if(isWinner(p)){
+        return 100;
+    } else{
+        bool left = true;
+        bool right = true;
+        unsigned cmpt = 0;
+        unsigned lastLeft = currentColumn;
+        unsigned lastRight = currentColumn;
+        for(int i = 0; i < 4; ++i){
+            // left
+            if(board.at(currentLine).at(currentColumn + i) == p && right){
+                cmpt++;
+            }else {
+                // end right side
+                if(right){
+                    lastRight +=i;
+                }
+                right = false;
+            }
+            if(board.at(currentLine).at(currentColumn - i) == p && left){
+                cmpt ++;
+            } else{
+                //end left side
+                if(left){
+                    lastLeft -= i;
+                }
+                left = false;
+            }
+        }
+        if(board.at(currentLine).at(lastRight) == EMPTY && board.at(currentLine).at(lastLeft) == EMPTY){
+            // _xxx_
+            if(cmpt == 3){
+                return 100;
+            } 
+            // _xx_
+            else if(cmpt == 2){
+                return 50;
+            // _x_
+            } else{
+                return 10;
+            }
+        }
+        else if(board.at(currentLine).at(lastRight) == EMPTY && board.at(currentLine).at(lastLeft) == -p
+                || board.at(currentLine).at(lastRight) == -p && board.at(currentLine).at(lastLeft) == EMPTY){
+            // _xxxo or oxxx_
+            if(cmpt == 3){
+                return 75;
+            // _xxo or oxx_
+            } else if(cmpt == 2){
+                return 25;
+            // _xo or ox_
+            } else {
+                return 5;
+            }
+        // sourounded by enemey
+        } else {
+            return 0;
+        }
+    }
+}
