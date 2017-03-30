@@ -99,6 +99,8 @@ private:
     */
    bool isFull();
    
+   unsigned heuristic (Player p);
+   
    const int NB_COLUMNS = 7;
    const int NB_LINES = 6;
    vector<vector<int>> board;
