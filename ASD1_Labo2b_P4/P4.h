@@ -99,12 +99,34 @@ private:
     */
    bool isFull();
    
+   /**
+    * Calcul the score of a move
+    * @param p current player
+    * @return the score of the move
+    */
    int heuristic (Player p);
    
-   bool isInBoard(int line, int col) const;
-   
+   /**
+    * Test the score for the horizontal move
+    * @param p current player
+    * @return the score of the move
+    */
    int testHeuristicHorizontal(Player p);
+   
+   /**
+    * Test the score of the vertical mvoe
+    * @param p current player
+    * @return the score fo the move
+    */
    int testHeuristicVertical(Player p);
+   
+   /**
+    * isInBoard test if a position is in the board
+    * @param line of the element to test
+    * @param col of the element to test
+    * @return true if it's in the interval of the board
+    */
+   bool isInBoard(int line, int col) const;
    
    const int NB_COLUMNS = 7;
    const int NB_LINES = 6;

@@ -109,6 +109,10 @@ bool P4::isValidMove(size_t c) const {
     return false;
 }
 
+string P4::getName() const {
+    return CODERS_NAME;
+}
+
 size_t P4::chooseNextMove(Player p, unsigned depth) {
     P4 temp = *this;
     // initialising the random function 
@@ -126,7 +130,6 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
         if (temp.isValidMove(i)) {
             playerScore = temp.bestScore(i, depth, -1000000, 1000000, p);
-            cout << i << " " << playerScore << endl;
         }
        j+=(pow(-1, i+1))*i;//a expliquer
         if (temp.isValidMove(j)) {
@@ -147,31 +150,6 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
        }
     }    
     return scores.at(rand() % scores.size()).first;
-}
-
-string P4::getName() const {
-    return CODERS_NAME;
-}
-
-ostream& operator<<(ostream& stream, const P4& p4) {
-    for (int i = p4.NB_LINES - 1; i >= 0; --i) {
-        for (int j = 0; j < p4.NB_COLUMNS; ++j) {
-            stream << "|";
-            if (p4.board.at(i).at(j) == X) {
-                stream << "X";
-            } else if (p4.board.at(i).at(j) == O) {
-                stream << "O";
-            } else {
-                stream << " ";
-            }
-        }
-        stream << "|" << endl;
-    }
-    for (unsigned i = 0; i < p4.NB_COLUMNS; ++i) {
-        stream << " " << i;
-    }
-    stream << endl;
-    return stream;
 }
 
 int P4::bestScore(int node, int depth, int a, int b, Player player) {
@@ -200,21 +178,6 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
         playerScore = bestValue * -1;
     }
     return playerScore;
-}
-
-void P4::operator=(const P4& p4) {
-    board = p4.board;
-    currentColumn = p4.currentColumn;
-    currentLine = p4.currentLine;
-}
-
-bool P4::isFull() {
-    for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-        if (board.at(NB_LINES - 1).at(i) == EMPTY) {
-            return false;
-        }
-    }
-    return true;
 }
 
 int P4::heuristic(Player p) {
@@ -313,4 +276,41 @@ int P4::testHeuristicVertical(Player p) {
 
 bool P4::isInBoard(int line, int col) const {
     return line >= 0 && line < NB_LINES && col >= 0 && col < NB_COLUMNS;
+}
+
+void P4::operator=(const P4& p4) {
+    board = p4.board;
+    currentColumn = p4.currentColumn;
+    currentLine = p4.currentLine;
+}
+
+bool P4::isFull() {
+    for (unsigned i = 0; i < NB_COLUMNS; ++i) {
+        if (board.at(NB_LINES - 1).at(i) == EMPTY) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+ostream& operator <<(ostream& stream, const P4& p4) {
+    for (int i = p4.NB_LINES - 1; i >= 0; --i) {
+        for (int j = 0; j < p4.NB_COLUMNS; ++j) {
+            stream << "|";
+            if (p4.board.at(i).at(j) == X) {
+                stream << "X";
+            } else if (p4.board.at(i).at(j) == O) {
+                stream << "O";
+            } else {
+                stream << " ";
+            }
+        }
+        stream << "|" << endl;
+    }
+    for (unsigned i = 0; i < p4.NB_COLUMNS; ++i) {
+        stream << " " << i;
+    }
+    stream << endl;
+    return stream;
 }
