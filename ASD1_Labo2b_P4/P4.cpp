@@ -136,18 +136,12 @@ unsigned P4::heuristic(Player p){
         unsigned maxHorizontal = testHeuristicHorizontal(p);
         unsigned maxVertical = testHeuristicVertical(p);
         unsigned maxDiago = testHeuriticDiago(p);
-        if(maxHorizontal >= maxVertical){
-            if(maxHorizontal >= maxDiago){
-                return maxHorizontal;
-            } else {
-                return maxDiago;
-            }
-        } else {
-            if(maxVertical >= maxDiago){
-                return maxVertical;
-            } else {
-                return maxDiago;
-            }
+        if(maxHorizontal >= maxVertical && maxHorizontal >= maxDiago){
+            return maxHorizontal;
+        } else if(maxVertical >= maxHorizontal && maxVertical >= maxDiago){
+            return maxVertical;
+        } else if(maxDiago >= maxHorizontal && maxDiago >= maxVertical){
+            return maxDiago;
         }
     }
 }
@@ -200,7 +194,6 @@ unsigned P4::testHeuristicVertical(Player p) const{
     }
 }
 
-// not functionnal
 unsigned P4::testHeuriticDiago (Player p) const{
     int lastLeft = currentColumn, 
             lastRight = currentColumn,
@@ -325,7 +318,6 @@ unsigned P4::nbSerieDiago (Player p, int& lastRight, int& lastLeft, int& pente) 
         return cmptDiag2;
     }
 }
-
  
 unsigned P4::nbSerieLine(Player p, int& lastRight, int& lastLeft) const{
     bool left = true;
@@ -390,7 +382,6 @@ bool P4::isFull() const{
     return true;
 }
 
-
 ostream& operator << (ostream& stream, const P4& p4) {
     for (int i = p4.NB_LINES - 1; i >= 0; --i) {
         for (int j = 0; j < int(p4.NB_COLUMNS); ++j) {
@@ -411,4 +402,3 @@ ostream& operator << (ostream& stream, const P4& p4) {
     stream << endl;
     return stream;
 }
-
