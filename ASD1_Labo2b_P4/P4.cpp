@@ -39,9 +39,9 @@ bool P4::isWinner(Player p) const {
     unsigned cmpt = 0;
 
     // Test diagonal 1
-    int line = currentLine - 3;
-    int col = currentColumn - 3;
-    for (; col <= currentColumn + 3; ++col, ++line) {
+    int line = int(currentLine) - 3;
+    int col = int(currentColumn) - 3;
+    for (; col <= int(currentColumn) + 3; ++col, ++line) {
         if (isInBoard(line, col)) {
             if (board.at(line).at(col) == p) {
                 ++cmpt;
@@ -55,9 +55,9 @@ bool P4::isWinner(Player p) const {
     }
 
     cmpt = 0;
-    line = currentLine - 3;
-    col = currentColumn + 3;
-    for (; col >= currentColumn - 3; --col, ++line) {
+    line = int(currentLine) - 3;
+    col = int(currentColumn) + 3;
+    for (; col >= int(currentColumn) - 3; --col, ++line) {
         if (isInBoard(line, col)) {
             if (board.at(line).at(col) == p) {
                 ++cmpt;
@@ -72,7 +72,7 @@ bool P4::isWinner(Player p) const {
 
     // Test horizontal
     cmpt = 0;
-    for (int i = 0; i < NB_COLUMNS; ++i) {
+    for (size_t i = 0; i < NB_COLUMNS; ++i) {
         if (board.at(currentLine).at(i) == p) {
             cmpt++;
             if (cmpt == 4) {
@@ -128,10 +128,7 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     int playerScore;
     size_t j = 3;//colonne centrale 
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-        if (temp.isValidMove(i)) {
-            playerScore = temp.bestScore(i, depth, -1000000, 1000000, p);
-        }
-       j+=(pow(-1, i+1))*i;//a expliquer
+        j+=size_t((pow(-1, i+1))*int(i));//a expliquer
         if (temp.isValidMove(j)) {
             playerScore = temp.bestScore(j, depth, -1000000, 1000000, p);
             if (playerScore >= scores.at(0).second) {
@@ -180,7 +177,7 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
     return playerScore;
 }
 
-int P4::heuristic(Player p) {
+unsigned P4::heuristic(Player p) {
     if (isWinner(p)) {
         return 100;
     } else {
@@ -194,12 +191,12 @@ int P4::heuristic(Player p) {
     }
 }
 
-int P4::testHeuristicHorizontal(Player p) {
+unsigned P4::testHeuristicHorizontal(Player p) {
     bool left = true;
     bool right = true;
     unsigned cmpt = 0;
-    unsigned lastLeft = currentColumn;
-    unsigned lastRight = currentColumn;
+    int lastLeft = int(currentColumn);
+    int lastRight = int(currentColumn);
     for (int i = 0; i < 5; ++i) {
         // left
         if (currentColumn + i < NB_COLUMNS && board.at(currentLine).at(currentColumn + i) == p && right) {
@@ -212,7 +209,7 @@ int P4::testHeuristicHorizontal(Player p) {
             right = false;
         }
         // right
-        if (currentColumn - i < 0 && isInBoard(currentLine, currentColumn - i) && board.at(currentLine).at(currentColumn - i) == p && left) {
+        if (int(currentColumn) - i < 0 && isInBoard(int(currentLine), int(currentColumn) - i) && board.at(int(currentLine)).at(int(currentColumn) - i) == p && left) {
             cmpt++;
         } else {
             //end left side
@@ -222,8 +219,7 @@ int P4::testHeuristicHorizontal(Player p) {
             left = false;
         }
     }
-    if (lastLeft >= 0 && lastRight < NB_COLUMNS && board.at(currentLine).at(lastRight) == EMPTY && board.at(currentLine).at(lastLeft) == EMPTY) {
-        cout << "test" << endl;
+    if (lastLeft >= 0 && lastRight < int(NB_COLUMNS) && board.at(currentLine).at(lastRight) == EMPTY && board.at(currentLine).at(lastLeft) == EMPTY) {
         // _xxx_
         if (cmpt == 3) {
             return 90;
@@ -235,9 +231,9 @@ int P4::testHeuristicHorizontal(Player p) {
         } else {
             return 10;
         }
-    } else if (((lastLeft < 0 || board.at(currentLine).at(lastLeft) != EMPTY) && lastRight < NB_COLUMNS &&
+    } else if (((lastLeft < 0 || board.at(currentLine).at(lastLeft) != EMPTY) && lastRight < int(NB_COLUMNS) &&
             board.at(currentLine).at(lastRight) == EMPTY)
-            || ((lastRight >= NB_COLUMNS || board.at(currentLine).at(lastRight) != EMPTY) && lastLeft >= 0 &&
+            || ((lastRight >= int(NB_COLUMNS) || board.at(currentLine).at(lastRight) != EMPTY) && lastLeft >= 0 &&
             board.at(currentLine).at(lastLeft) == EMPTY)) {
         // _xxxo or oxxx_
         if (cmpt == 3) {
@@ -255,7 +251,7 @@ int P4::testHeuristicHorizontal(Player p) {
     }
 }
 
-int P4::testHeuristicVertical(Player p) {
+unsigned P4::testHeuristicVertical(Player p) {
     unsigned cmpt = 0;
         for(int i = currentLine; i >= 0; --i){
             if(board.at(i).at(currentColumn) == p){
@@ -275,7 +271,7 @@ int P4::testHeuristicVertical(Player p) {
 }
 
 bool P4::isInBoard(int line, int col) const {
-    return line >= 0 && line < NB_LINES && col >= 0 && col < NB_COLUMNS;
+    return line >= 0 && line < int(NB_LINES) && col >= 0 && col < int(NB_COLUMNS);
 }
 
 void P4::operator=(const P4& p4) {
@@ -296,7 +292,7 @@ bool P4::isFull() {
 
 ostream& operator <<(ostream& stream, const P4& p4) {
     for (int i = p4.NB_LINES - 1; i >= 0; --i) {
-        for (int j = 0; j < p4.NB_COLUMNS; ++j) {
+        for (int j = 0; j < int(p4.NB_COLUMNS); ++j) {
             stream << "|";
             if (p4.board.at(i).at(j) == X) {
                 stream << "X";

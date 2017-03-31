@@ -104,21 +104,21 @@ private:
     * @param p current player
     * @return the score of the move
     */
-   int heuristic (Player p);
+   size_t heuristic (Player p);
    
    /**
     * Test the score for the horizontal move
     * @param p current player
     * @return the score of the move
     */
-   int testHeuristicHorizontal(Player p);
+   size_t testHeuristicHorizontal(Player p);
    
    /**
     * Test the score of the vertical mvoe
     * @param p current player
     * @return the score fo the move
     */
-   int testHeuristicVertical(Player p);
+   size_t testHeuristicVertical(Player p);
    
    /**
     * isInBoard test if a position is in the board
@@ -128,11 +128,11 @@ private:
     */
    bool isInBoard(int line, int col) const;
    
-   const int NB_COLUMNS = 7;
-   const int NB_LINES = 6;
+   const size_t NB_COLUMNS = 7;
+   const size_t NB_LINES = 6;
    vector<vector<int>> board;
-   int currentColumn;
-   int currentLine;
+   size_t currentColumn;
+   size_t currentLine;
    string CODERS_NAME = "ScharSchranzSmith";
 };
 
