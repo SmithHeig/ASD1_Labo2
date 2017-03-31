@@ -42,7 +42,7 @@ public:
     *
     *  @return vrai si 4 a la suite pour p, faux sinon
     */
-   bool isWinner(Player p) const;
+   bool isWinner(Player p);
 
    /**
     *  @brief Verifie si jouer dans la colonne c est valide
@@ -97,7 +97,7 @@ private:
     * Caclul if the board is full
     * @return return true if the board is full
     */
-   bool isFull();
+   bool isFull() const;
    
    /**
     * Calcul the score of a move
@@ -111,14 +111,22 @@ private:
     * @param p current player
     * @return the score of the move
     */
-   size_t testHeuristicHorizontal(Player p);
+   size_t testHeuristicHorizontal(Player p) const;
    
    /**
     * Test the score of the vertical mvoe
     * @param p current player
     * @return the score fo the move
     */
-   size_t testHeuristicVertical(Player p);
+   size_t testHeuristicVertical(Player p) const;
+   
+   unsigned testHeuriticDiago(Player p) const;
+   
+   unsigned nbSerieDiago (Player p, int& lastRight, int& lastLeft) const;
+   
+   unsigned nbSerieLine(Player p, int& lastRight, int& lastLeft) const;
+   
+   unsigned nbSerieColumn(Player p) const;
    
    /**
     * isInBoard test if a position is in the board
