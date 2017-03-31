@@ -122,7 +122,7 @@ private:
    
    unsigned testHeuriticDiago(Player p) const;
    
-   unsigned nbSerieDiago (Player p, int& lastRight, int& lastLeft) const;
+   unsigned nbSerieDiago (Player p, int& lastRight, int& lastLeft, int& pente) const;
    
    unsigned nbSerieLine(Player p, int& lastRight, int& lastLeft) const;
    
