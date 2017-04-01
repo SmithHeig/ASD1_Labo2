@@ -114,18 +114,45 @@ private:
    size_t testHeuristicHorizontal(Player p) const;
    
    /**
-    * Test the score of the vertical mvoe
+    * Test the score of the vertical move
     * @param p current player
     * @return the score fo the move
     */
    size_t testHeuristicVertical(Player p) const;
    
+   /**
+    * Test the score for the Diagonal move
+    * @param p current player
+    * @return the score for the move with the diagonal.
+    */
    unsigned testHeuriticDiago(Player p) const;
    
-   unsigned nbSerieDiago (Player p, int& lastRight, int& lastLeft, int& pente) const;
+   /**
+    * Calculate the longest serie of pions for the current player in a diag
+    * @param p current player
+    * @param lastRight last element on the right side of the serie
+    * @param lastLeft last element on the left side of the serie
+    * @param slope of the diagonal (-1 or 1 only)
+    * @return The number of pions of the player (p) in a diag
+    */
+   unsigned nbSerieDiago (Player p, int& lastRight, int& lastLeft, int& slope) const;
    
+   /**
+    * Calculate the serie of pions in the line
+    * @param p current player
+    * @param lastRight last pions in the right side of the serie
+    * @param lastLeft last pions in the left side of the serie
+    * @return the nb of pions next to each other
+    */
    unsigned nbSerieLine(Player p, int& lastRight, int& lastLeft) const;
    
+   /**
+    * Calculate the serie of pions in the column
+    * @param p current player
+    * @param lastRight last pions in the right side of the serie
+    * @param lastLeft last pions in the left side of the serie
+    * @return the nb of pions next to each other
+    */
    unsigned nbSerieColumn(Player p) const;
    
    /**
