@@ -178,7 +178,7 @@ unsigned P4::testHeuristicHorizontal(const Player& p) const{
             return 50;
             // _xxo or oxx_
         } else if (cmpt == 2) {
-            return 25;
+            return 20;
             // _xo or ox_
         } else {
             return 5;
