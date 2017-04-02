@@ -33,7 +33,7 @@ public:
     *  @param c Le numero de colonne entre 0 et 6
     *  @param p Le joueur X ou O
     */
-   void playInColumn(size_t c, Player p);
+   void playInColumn(unsigned c, Player p);
 
    /**
     *  @brief Verifie si le joueur p gagne
@@ -52,7 +52,7 @@ public:
     *  @return vrai si c est entre 0 et 6 et que la 
     *          colonne n'est pas pleine. Faux sinon
     */
-   bool isValidMove(size_t c) const;
+   bool isValidMove(unsigned c) const;
 
    /**
     *  @brief Choisit la prochain mouvement pour le joueur p
@@ -65,7 +65,7 @@ public:
     *          typiquement calcule avec une variante a 
     *          choix de l'algorithme minimax
     */
-   size_t chooseNextMove(Player p, unsigned depth);
+   unsigned chooseNextMove(Player p, unsigned depth);
 
    /**
     *  @brief Renvoie le nom de votre classe pour le tournoi
@@ -104,21 +104,21 @@ private:
     * @param p current player
     * @return the score of the move
     */
-   size_t heuristic (const Player& p);
+   unsigned heuristic (const Player& p);
    
    /**
     * Test the score for the horizontal move
     * @param p current player
     * @return the score of the move
     */
-   size_t testHeuristicHorizontal(const Player& p) const;
+   unsigned testHeuristicHorizontal(const Player& p) const;
    
    /**
     * Test the score of the vertical move
     * @param p current player
     * @return the score fo the move
     */
-   size_t testHeuristicVertical(const Player& p) const;
+   unsigned testHeuristicVertical(const Player& p) const;
    
    /**
     * Test the score for the Diagonal move
@@ -163,11 +163,11 @@ private:
     */
    bool isInBoard(const int line, const int col) const;
    
-   const size_t NB_COLUMNS = 7;
-   const size_t NB_LINES = 6;
+   const unsigned NB_COLUMNS = 7;
+   const unsigned NB_LINES = 6;
    vector<vector<int>> board;
-   size_t currentColumn;
-   size_t currentLine;
+   unsigned currentColumn;
+   unsigned currentLine;
    string CODERS_NAME = "ScharSchranzSmith";
 };
 
