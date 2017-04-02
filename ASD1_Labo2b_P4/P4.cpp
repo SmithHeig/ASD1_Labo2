@@ -146,12 +146,21 @@ unsigned P4::heuristic(const Player& p){
 
 unsigned P4::testHeuristicHorizontal(const Player& p) const{
     int firstEl = currentColumn, 
-            lastEl = currentColumn;
+            lastEl = currentColumn,
+            firstPos,
+            lastPos;
     unsigned cmpt = nbSerieLine(p,lastEl,firstEl);
-    int firstPos = board.at(currentLine).at(firstEl),
-            lastPos = board.at(currentLine).at(lastEl);
-    cout << cmpt << " " << lastEl << " " << firstEl << endl;
-    if (firstEl >= 0 && lastEl < int(NB_COLUMNS) && firstPos == EMPTY && lastPos == EMPTY) {
+    if(firstEl < 0){
+        firstPos = -p;
+    } else {
+        firstPos = board.at(currentLine).at(firstEl);
+    }
+    if(lastEl >= int(NB_COLUMNS)){
+        lastPos = -p;
+    } else {
+        lastPos = board.at(currentLine).at(lastEl);
+    }
+    if (firstPos == EMPTY && lastPos == EMPTY) {
         // _xxx_
         if (cmpt == 3) {
             return 90;
@@ -163,10 +172,7 @@ unsigned P4::testHeuristicHorizontal(const Player& p) const{
         } else {
             return 10;
         }
-    } else if (((firstEl < 0 || firstPos != EMPTY) && lastEl < int(NB_COLUMNS) &&
-            lastPos == EMPTY)
-            || ((lastEl >= int(NB_COLUMNS) || lastPos != EMPTY) && firstEl >= 0 &&
-            firstPos == EMPTY)) {
+    } else if ((firstPos != EMPTY && lastPos == EMPTY) || ( lastPos != EMPTY && firstPos == EMPTY)) {
         // _xxxo or oxxx_
         if (cmpt == 3) {
             return 50;
