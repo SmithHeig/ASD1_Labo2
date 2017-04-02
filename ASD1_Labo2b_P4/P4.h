@@ -33,7 +33,7 @@ public:
     *  @param c Le numero de colonne entre 0 et 6
     *  @param p Le joueur X ou O
     */
-   void playInColumn(unsigned c, Player p);
+   void playInColumn(size_t c, Player p);
 
    /**
     *  @brief Verifie si le joueur p gagne
@@ -65,7 +65,7 @@ public:
     *          typiquement calcule avec une variante a 
     *          choix de l'algorithme minimax
     */
-   unsigned chooseNextMove(Player p, unsigned depth);
+   size_t chooseNextMove(Player p, unsigned depth);
 
    /**
     *  @brief Renvoie le nom de votre classe pour le tournoi

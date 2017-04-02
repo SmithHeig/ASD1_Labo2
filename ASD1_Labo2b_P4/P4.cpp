@@ -22,7 +22,7 @@ void P4::reset() {
     }
 }
 
-void P4::playInColumn(unsigned column, Player p) {
+void P4::playInColumn(size_t column, Player p) {
     if (isValidMove(column)) {
         for (unsigned i = 0; i < NB_LINES; ++i) {
             if (board.at(i).at(column) == EMPTY) {
@@ -44,7 +44,7 @@ bool P4::isValidMove(unsigned column) const {
     return false;
 }
 
-unsigned P4::chooseNextMove(Player p, unsigned depth) {
+size_t P4::chooseNextMove(Player p, unsigned depth) {
     // initialising the random function 
     static bool first = true;
     if (first) {
