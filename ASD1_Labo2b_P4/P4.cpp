@@ -409,4 +409,4 @@ ostream& operator << (ostream& stream, const P4& p4) {
     }
     stream << endl;
     return stream;
-}
+} //
