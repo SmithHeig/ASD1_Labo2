@@ -56,9 +56,9 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     scores.push_back(make_pair(0, -100000)); // set bestScore
 
     int playerScore;
-    size_t j = 3;//colonne centrale 
+    size_t j = 3;//start from the central column
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
-        j+=size_t((pow(-1, i+1))*int(i));//a expliquer
+        j += size_t((pow(-1 , i + 1)) * int(i));//column 3 4 2 5 1 6 0
         if (isValidMove(j)) {
             playerScore = bestScore(j, depth, -1000000, 1000000, p);
             if (playerScore >= scores.at(0).second) {
