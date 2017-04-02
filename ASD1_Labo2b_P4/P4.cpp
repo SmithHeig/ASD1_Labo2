@@ -61,7 +61,6 @@ unsigned P4::chooseNextMove(Player p, unsigned depth) {
         j += unsigned((pow(-1 , i + 1)) * int(i));//column 3 4 2 5 1 6 0
         if (isValidMove(j)) {
             playerScore = scoreMove(j, depth, -1000000, 1000000, p);
-            cout << j << " " << playerScore << endl;
             if (playerScore >= bestScores.at(0).second) {
                 if (playerScore == bestScores.at(0).second) {
                     bestScores.push_back(make_pair(j, playerScore));
@@ -132,7 +131,6 @@ unsigned P4::heuristic(const Player& p){
         unsigned maxHorizontal = testHeuristicHorizontal(p);
         unsigned maxVertical = testHeuristicVertical(p);
         unsigned maxDiago = testHeuriticDiago(p);
-        // << maxHorizontal << " " << maxVertical << " " << maxDiago << endl;
         if(maxHorizontal >= maxVertical && maxHorizontal >= maxDiago){
             return maxHorizontal;
         } else if(maxVertical >= maxHorizontal && maxVertical >= maxDiago){
@@ -256,6 +254,50 @@ unsigned P4::testHeuriticDiago (const Player& p) const{
     
 }
 
+unsigned P4::nbSerieLine(const Player& p, int& lastEl, int& firstEl) const{
+    bool left = true;
+    bool right = true;
+    unsigned cmpt = 0;
+    for (int i = 0; i < 4; ++i) {
+        // right
+        if (currentColumn + i < NB_COLUMNS && board.at(currentLine).at(currentColumn + i) == p && right) {
+            ++cmpt;
+        } else {
+            // end right side
+            if (right) {
+                lastEl += i;
+            }
+            right = false;
+        }
+        // left
+        if(i > 0){
+            if (int(currentColumn) - i >= 0 && board.at(int(currentLine)).at(int(currentColumn) - i) == p && left) {
+                ++cmpt;
+            } else {
+                //end left side
+                if (left) {
+                    firstEl -= i;
+                }
+                left = false;
+            }
+        }
+    }
+    return cmpt;
+}
+
+unsigned P4::nbSerieColumn(const Player& p) const{
+    unsigned cmpt = 0;
+    for(int i = currentLine; i >= 0; --i){
+        if(board.at(i).at(currentColumn) == p){
+            ++cmpt;
+        }
+        else {
+            break;
+        }
+    }
+    return cmpt;
+}
+
 unsigned P4::nbSerieDiago (const Player& p, int& lastEl, int& firstEl, int& slope) const{
     int lastElDiag1 = currentColumn,
             firstElDiag1 = currentColumn,
@@ -323,50 +365,6 @@ unsigned P4::nbSerieDiago (const Player& p, int& lastEl, int& firstEl, int& slop
         slope = -1;
         return cmptDiag2;
     }
-}
- 
-unsigned P4::nbSerieLine(const Player& p, int& lastEl, int& firstEl) const{
-    bool left = true;
-    bool right = true;
-    unsigned cmpt = 0;
-    for (int i = 0; i < 4; ++i) {
-        // right
-        if (currentColumn + i < NB_COLUMNS && board.at(currentLine).at(currentColumn + i) == p && right) {
-            ++cmpt;
-        } else {
-            // end right side
-            if (right) {
-                lastEl += i;
-            }
-            right = false;
-        }
-        // left
-        if(i > 0){
-            if (int(currentColumn) - i >= 0 && board.at(int(currentLine)).at(int(currentColumn) - i) == p && left) {
-                ++cmpt;
-            } else {
-                //end left side
-                if (left) {
-                    firstEl -= i;
-                }
-                left = false;
-            }
-        }
-    }
-    return cmpt;
-}
-
-unsigned P4::nbSerieColumn(const Player& p) const{
-    unsigned cmpt = 0;
-    for(int i = currentLine; i >= 0; --i){
-        if(board.at(i).at(currentColumn) == p){
-            ++cmpt;
-        }
-        else {
-            break;
-        }
-    }
-    return cmpt;
 }
 
 bool P4::isInBoard(const int line, const int col) const {
