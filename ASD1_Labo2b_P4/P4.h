@@ -128,16 +128,6 @@ private:
    unsigned testHeuriticDiago(const Player& p) const;
    
    /**
-    * Calculate the longest serie of pions for the current player in a diag
-    * @param p current player
-    * @param lastRight last element on the right side of the serie
-    * @param lastLeft last element on the left side of the serie
-    * @param slope of the diagonal (-1 or 1 only)
-    * @return The number of pions of the player (p) in a diag
-    */
-   unsigned nbSerieDiago (const Player& p, int& lastRight, int& lastLeft, int& slope) const;
-   
-   /**
     * Calculate the serie of pions in the line
     * @param p current player
     * @param lastRight last pions in the right side of the serie
@@ -154,6 +144,16 @@ private:
     * @return the nb of pions next to each other
     */
    unsigned nbSerieColumn(const Player& p) const;
+   
+   /**
+    * Calculate the longest serie of pions for the current player in a diag
+    * @param p current player
+    * @param lastRight last element on the right side of the serie
+    * @param lastLeft last element on the left side of the serie
+    * @param slope of the diagonal (-1 or 1 only)
+    * @return The number of pions of the player (p) in a diag
+    */
+   unsigned nbSerieDiago (const Player& p, int& lastRight, int& lastLeft, int& slope) const;
    
    /**
     * isInBoard test if a position is in the board
