@@ -35,23 +35,6 @@ void P4::playInColumn(size_t c, Player p) {
     }
 }
 
-bool P4::isWinner(Player p) {
-    int lastLeft = currentColumn,
-            lastRight = currentColumn,
-            pente = 0;
-    unsigned cmptLine = nbSerieLine(p,lastRight,lastLeft),
-            cmptColumn = nbSerieColumn(p),
-            cmptDiago = nbSerieDiago(p,lastRight,lastLeft,pente);
-    if(cmptLine == 4){
-        return true;
-    } else if(cmptColumn == 4){
-        return true;
-    } else if(cmptDiago == 4){
-        return true;
-    }
-    return false;
-}
-
 bool P4::isValidMove(size_t c) const {
     if (c < NB_COLUMNS) {
         if (board.at(NB_LINES - 1).at(c) == EMPTY) {
@@ -59,10 +42,6 @@ bool P4::isValidMove(size_t c) const {
         }
     }
     return false;
-}
-
-string P4::getName() const {
-    return CODERS_NAME;
 }
 
 size_t P4::chooseNextMove(Player p, unsigned depth) {
@@ -82,7 +61,6 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
         j+=size_t((pow(-1, i+1))*int(i));//a expliquer
         if (isValidMove(j)) {
             playerScore = bestScore(j, depth, -1000000, 1000000, p);
-            cout << j << " " << playerScore << endl;
             if (playerScore >= scores.at(0).second) {
                 if (playerScore == scores.at(0).second) {
                     scores.push_back(make_pair(j, playerScore));
@@ -101,10 +79,10 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     return scores.at(rand() % scores.size()).first;
 }
 
-int P4::bestScore(int node, int depth, int a, int b, Player player) {
+int P4::bestScore(const int column, int depth, int a, int b, const Player player) {
     int scoreOppenent = 0;
     int playerScore = -1000;
-    playInColumn(node, player);
+    playInColumn(column, player);
     unsigned col = currentColumn;
     unsigned line = currentLine;
     if (isWinner(player) || depth == 0 || isFull()) {
@@ -129,7 +107,24 @@ int P4::bestScore(int node, int depth, int a, int b, Player player) {
     return playerScore;
 }
 
-unsigned P4::heuristic(Player p){
+bool P4::isWinner(const Player& p) {
+    int lastLeft = currentColumn,
+            lastRight = currentColumn,
+            slope = 0;
+    unsigned cmptLine = nbSerieLine(p,lastRight,lastLeft),
+            cmptColumn = nbSerieColumn(p),
+            cmptDiago = nbSerieDiago(p,lastRight,lastLeft,slope);
+    if(cmptLine == 4){
+        return true;
+    } else if(cmptColumn == 4){
+        return true;
+    } else if(cmptDiago == 4){
+        return true;
+    }
+    return false;
+}
+
+unsigned P4::heuristic(const Player& p){
     if (isWinner(p)) {
         return 100;
     } else {
@@ -144,9 +139,10 @@ unsigned P4::heuristic(Player p){
             return maxDiago;
         }
     }
+    return 0;
 }
 
-unsigned P4::testHeuristicHorizontal(Player p) const{
+unsigned P4::testHeuristicHorizontal(const Player& p) const{
     int lastLeft = currentColumn, 
             lastRight = currentColumn,
             currentPos = board.at(currentLine).at(lastLeft);
@@ -183,7 +179,7 @@ unsigned P4::testHeuristicHorizontal(Player p) const{
     }
 }
 
-unsigned P4::testHeuristicVertical(Player p) const{
+unsigned P4::testHeuristicVertical(const Player& p) const{
     int cmpt = nbSerieColumn(p);
     if(cmpt == 3) {
         return 20;
@@ -194,13 +190,13 @@ unsigned P4::testHeuristicVertical(Player p) const{
     }
 }
 
-unsigned P4::testHeuriticDiago (Player p) const{
+unsigned P4::testHeuriticDiago (const Player& p) const{
     int lastLeft = currentColumn, 
             lastRight = currentColumn,
-            pente = 0;
-    unsigned cmpt = nbSerieDiago(p,lastRight, lastLeft,pente);
-    int higthRight = currentLine + ((lastRight - currentLine) * pente);
-    int higthLeft = currentLine - (currentLine - lastLeft * pente);
+            slope = 0;
+    unsigned cmpt = nbSerieDiago(p,lastRight, lastLeft,slope);
+    int higthRight = currentLine + ((lastRight - currentLine) * slope);
+    int higthLeft = currentLine - (currentLine - lastLeft * slope);
     bool isInBoardLeft = isInBoard(higthLeft,lastLeft);
     bool isInBoardRight = isInBoard(higthRight,lastRight);
     int posLeft;
@@ -250,7 +246,7 @@ unsigned P4::testHeuriticDiago (Player p) const{
     
 }
 
-unsigned P4::nbSerieDiago (Player p, int& lastRight, int& lastLeft, int& pente) const{
+unsigned P4::nbSerieDiago (const Player& p, int& lastRight, int& lastLeft, int& slope) const{
     int lastRightDiag1 = currentColumn,
             lastLeftDiag1 = currentColumn,
             lastRightDiag2 = currentColumn,
@@ -309,17 +305,17 @@ unsigned P4::nbSerieDiago (Player p, int& lastRight, int& lastLeft, int& pente) 
     if(cmptDiag1 >= cmptDiag2){
         lastLeft = lastLeftDiag1;
         lastRight = lastRightDiag1;
-        pente = 1;
+        slope = 1;
         return cmptDiag1;
     } else{
         lastLeft = lastLeftDiag2;
         lastRight = lastRightDiag2;
-        pente = -1;
+        slope = -1;
         return cmptDiag2;
     }
 }
  
-unsigned P4::nbSerieLine(Player p, int& lastRight, int& lastLeft) const{
+unsigned P4::nbSerieLine(const Player& p, int& lastRight, int& lastLeft) const{
     bool left = true;
     bool right = true;
     unsigned cmpt = 0;
@@ -350,7 +346,7 @@ unsigned P4::nbSerieLine(Player p, int& lastRight, int& lastLeft) const{
     return cmpt;
 }
 
-unsigned P4::nbSerieColumn(Player p) const{
+unsigned P4::nbSerieColumn(const Player& p) const{
     unsigned cmpt = 0;
     for(int i = currentLine; i >= 0; --i){
         if(board.at(i).at(currentColumn) == p){
@@ -363,14 +359,8 @@ unsigned P4::nbSerieColumn(Player p) const{
     return cmpt;
 }
 
-bool P4::isInBoard(int line, int col) const {
+bool P4::isInBoard(const int line, const int col) const {
     return line >= 0 && line < int(NB_LINES) && col >= 0 && col < int(NB_COLUMNS);
-}
-
-void P4::operator=(const P4& p4) {
-    board = p4.board;
-    currentColumn = p4.currentColumn;
-    currentLine = p4.currentLine;
 }
 
 bool P4::isFull() const{
@@ -380,6 +370,16 @@ bool P4::isFull() const{
         }
     }
     return true;
+}
+
+string P4::getName() const {
+    return CODERS_NAME;
+}
+
+void P4::operator = (const P4& p4) {
+    board = p4.board;
+    currentColumn = p4.currentColumn;
+    currentLine = p4.currentLine;
 }
 
 ostream& operator << (ostream& stream, const P4& p4) {

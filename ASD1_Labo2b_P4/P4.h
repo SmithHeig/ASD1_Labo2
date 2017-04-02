@@ -42,7 +42,7 @@ public:
     *
     *  @return vrai si 4 a la suite pour p, faux sinon
     */
-   bool isWinner(Player p);
+   bool isWinner(const Player& p);
 
    /**
     *  @brief Verifie si jouer dans la colonne c est valide
@@ -85,7 +85,7 @@ private:
     * @param player current player
     * @return the score of the case
     */
-   int bestScore(int node, int depth, int a, int b, Player player);
+   int bestScore(const int column, int depth, int a, int b, const Player player);
    
    /**
     * overloard operator = (operator of copie)
@@ -104,28 +104,28 @@ private:
     * @param p current player
     * @return the score of the move
     */
-   size_t heuristic (Player p);
+   size_t heuristic (const Player& p);
    
    /**
     * Test the score for the horizontal move
     * @param p current player
     * @return the score of the move
     */
-   size_t testHeuristicHorizontal(Player p) const;
+   size_t testHeuristicHorizontal(const Player& p) const;
    
    /**
     * Test the score of the vertical move
     * @param p current player
     * @return the score fo the move
     */
-   size_t testHeuristicVertical(Player p) const;
+   size_t testHeuristicVertical(const Player& p) const;
    
    /**
     * Test the score for the Diagonal move
     * @param p current player
     * @return the score for the move with the diagonal.
     */
-   unsigned testHeuriticDiago(Player p) const;
+   unsigned testHeuriticDiago(const Player& p) const;
    
    /**
     * Calculate the longest serie of pions for the current player in a diag
@@ -135,7 +135,7 @@ private:
     * @param slope of the diagonal (-1 or 1 only)
     * @return The number of pions of the player (p) in a diag
     */
-   unsigned nbSerieDiago (Player p, int& lastRight, int& lastLeft, int& slope) const;
+   unsigned nbSerieDiago (const Player& p, int& lastRight, int& lastLeft, int& slope) const;
    
    /**
     * Calculate the serie of pions in the line
@@ -144,7 +144,7 @@ private:
     * @param lastLeft last pions in the left side of the serie
     * @return the nb of pions next to each other
     */
-   unsigned nbSerieLine(Player p, int& lastRight, int& lastLeft) const;
+   unsigned nbSerieLine(const Player& p, int& lastRight, int& lastLeft) const;
    
    /**
     * Calculate the serie of pions in the column
@@ -153,7 +153,7 @@ private:
     * @param lastLeft last pions in the left side of the serie
     * @return the nb of pions next to each other
     */
-   unsigned nbSerieColumn(Player p) const;
+   unsigned nbSerieColumn(const Player& p) const;
    
    /**
     * isInBoard test if a position is in the board
@@ -161,7 +161,7 @@ private:
     * @param col of the element to test
     * @return true if it's in the interval of the board
     */
-   bool isInBoard(int line, int col) const;
+   bool isInBoard(const int line, const int col) const;
    
    const size_t NB_COLUMNS = 7;
    const size_t NB_LINES = 6;
