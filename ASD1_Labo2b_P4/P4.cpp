@@ -80,7 +80,7 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
     return bestScores.at(rand() % bestScores.size()).first;
 }
 
-int P4::scoreMove(const int column, int depth, int a, int b, const Player player) {
+int P4::scoreMove(const int column, int depth, int alpha, int beta, const Player player) {
     int scoreOppenent = 0;
     int playerScore = -1000;
     playInColumn(column, player);
@@ -92,12 +92,12 @@ int P4::scoreMove(const int column, int depth, int a, int b, const Player player
         int bestValue = -1000000;
         for (unsigned i = 0; i < NB_COLUMNS; ++i) {
             if (isValidMove(i)) {
-                scoreOppenent = scoreMove(i, depth - 1, -1 * b, -1 * a, Player(-player));
+                scoreOppenent = scoreMove(i, depth - 1, -1 * beta, -1 * alpha, Player(-player));
                 if (scoreOppenent > bestValue) {
                     bestValue = scoreOppenent;
                 }
-                a = a > scoreOppenent ? a : scoreOppenent;
-                if (a >= b) {
+                alpha = alpha > scoreOppenent ? alpha : scoreOppenent;
+                if (alpha >= beta) {
                     break;
                 }
             }
