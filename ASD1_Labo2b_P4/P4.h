@@ -85,7 +85,7 @@ private:
     * @param player current player
     * @return the score of the case
     */
-   int bestScore(const int column, int depth, int a, int b, const Player player);
+   int scoreMove(const int column, int depth, int a, int b, const Player player);
    
    /**
     * overloard operator = (operator of copie)

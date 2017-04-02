@@ -22,12 +22,12 @@ void P4::reset() {
     }
 }
 
-void P4::playInColumn(size_t c, Player p) {
-    if (isValidMove(c)) {
+void P4::playInColumn(size_t column, Player p) {
+    if (isValidMove(column)) {
         for (unsigned i = 0; i < NB_LINES; ++i) {
-            if (board.at(i).at(c) == EMPTY) {
-                board.at(i).at(c) = p;
-                currentColumn = c;
+            if (board.at(i).at(column) == EMPTY) {
+                board.at(i).at(column) = p;
+                currentColumn = column;
                 currentLine = i;
                 break;
             }
@@ -35,9 +35,9 @@ void P4::playInColumn(size_t c, Player p) {
     }
 }
 
-bool P4::isValidMove(size_t c) const {
-    if (c < NB_COLUMNS) {
-        if (board.at(NB_LINES - 1).at(c) == EMPTY) {
+bool P4::isValidMove(size_t column) const {
+    if (column < NB_COLUMNS) {
+        if (board.at(NB_LINES - 1).at(column) == EMPTY) {
             return true;
         }
     }
@@ -52,34 +52,35 @@ size_t P4::chooseNextMove(Player p, unsigned depth) {
         first = !first;
     }
 
-    vector<pair<int, int>> scores;
-    scores.push_back(make_pair(0, -100000)); // set bestScore
+    vector<pair<int, int>> bestScores;
+    bestScores.push_back(make_pair(0, -100000)); // set bestScore
 
     int playerScore;
     size_t j = 3;//start from the central column
     for (unsigned i = 0; i < NB_COLUMNS; ++i) {
         j += size_t((pow(-1 , i + 1)) * int(i));//column 3 4 2 5 1 6 0
         if (isValidMove(j)) {
-            playerScore = bestScore(j, depth, -1000000, 1000000, p);
-            if (playerScore >= scores.at(0).second) {
-                if (playerScore == scores.at(0).second) {
-                    scores.push_back(make_pair(j, playerScore));
+            playerScore = scoreMove(j, depth, -1000000, 1000000, p);
+            cout << j << " " << playerScore << endl;
+            if (playerScore >= bestScores.at(0).second) {
+                if (playerScore == bestScores.at(0).second) {
+                    bestScores.push_back(make_pair(j, playerScore));
                 } else {
-                    scores.clear();
-                    scores.push_back(make_pair(j, playerScore));
+                    bestScores.clear();
+                    bestScores.push_back(make_pair(j, playerScore));
                 }
             }
         }
     }
-    for (size_t i = 0; i < scores.size() ; ++i){
-       if (scores.at(i).first == 3) {
+    for (size_t i = 0; i < bestScores.size() ; ++i){
+       if (bestScores.at(i).first == 3) {
           return 3;
        }
     }    
-    return scores.at(rand() % scores.size()).first;
+    return bestScores.at(rand() % bestScores.size()).first;
 }
 
-int P4::bestScore(const int column, int depth, int a, int b, const Player player) {
+int P4::scoreMove(const int column, int depth, int a, int b, const Player player) {
     int scoreOppenent = 0;
     int playerScore = -1000;
     playInColumn(column, player);
@@ -91,7 +92,7 @@ int P4::bestScore(const int column, int depth, int a, int b, const Player player
         int bestValue = -1000000;
         for (unsigned i = 0; i < NB_COLUMNS; ++i) {
             if (isValidMove(i)) {
-                scoreOppenent = bestScore(i, depth - 1, -1 * b, -1 * a, Player(-player));
+                scoreOppenent = scoreMove(i, depth - 1, -1 * b, -1 * a, Player(-player));
                 if (scoreOppenent > bestValue) {
                     bestValue = scoreOppenent;
                 }
